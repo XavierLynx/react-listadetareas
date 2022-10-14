@@ -4,12 +4,9 @@ import TaskCreator from './components/TaskCreator';
 
 function App() {
 
-
   return (
     <div className="App">
-    <TaskCreator />  
-
-
+      <TaskCreator />  
     </div>
   );
 }

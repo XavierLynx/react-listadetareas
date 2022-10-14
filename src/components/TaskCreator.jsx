@@ -1,26 +1,27 @@
 import { useState } from 'react';
-import React from 'react'
 
-export default function TaskCreator() {
-	const [task, setTask] = useState('');
+function TaskCreator() {
+  const [newTaskName, setNewTaskName] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem('task', task);
-    setTask('');
+    localStorage.setItem('task', newTaskName);
+    setNewTaskName('');
+    //alert('Enviado...');
   }
-	return (
-		<div>
-			<form onSubmit={handleSubmit}>
-				<input
-					type="text"
-					placeholder="Enter a new task"
-					value={task}
-					onChange={(e) => setTask(e.target.value)}
-				/>
 
-				<button>Save Task</button>
-			</form>
-		</div>
-	)
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Enter a new task"
+        value={newTaskName}
+        onChange={(e) => setNewTaskName(e.target.value)}
+      />
+
+      <button>Save Task</button>
+    </form>
+  )
 }
+
+export default TaskCreator
