@@ -8,7 +8,6 @@ function VisibilityControl({ isChecked, setShowCompleted, cleanTasks }) {
     }
   }
 
-
   return (
     <div className='d-flex justify-content-between bg-secondary text-white text-center p-2 border-sencondary'>
       <div className='form-check form-switch'>
