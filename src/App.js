@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import TaskCreator from './components/TaskCreator';
 import TaskTable from './components/TaskTable';
+import VisibilityControl from './components/VisibilityControl';
 const KEY = 'todolist.fatz';
 
 function App() {
@@ -33,14 +34,19 @@ function App() {
     setTasksItems(newTasksItems);
   }
 
+   const cleanTasks = () => {
+     setTasksItems(tasksItems.filter(task => !task.done));
+   }
+
   return (
     <div className="App">
       <TaskCreator createNewTask={createNewTask} />
       <TaskTable tasks={tasksItems} toggleTask={toggleTask} />
-
-      <div>
-        <input type="checkbox" onChange={() => setShowCompleted(!showCompleted)} /><label>Show Tasks Done</label>
-      </div>
+      <VisibilityControl 
+        isChecked={showCompleted}
+        setShowCompleted={(checked) => setShowCompleted(checked)}
+        cleanTasks={cleanTasks} 
+      />
 
       {
         showCompleted && (
