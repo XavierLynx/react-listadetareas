@@ -1,14 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import TaskCreator from './components/TaskCreator';
-
+import TaskTable from './components/TaskTable';
+const KEY = 'todolist.fatz';
 
 function App() {
-  const [tasksItems, setTasksItems] = useState([
-    {name: 'mi primer tarea', done: false},
-    {name: 'mi segunda tarea', done: false},
-    {name: 'mi tercer tarea', done: false}
-  ]);
+  const [tasksItems, setTasksItems] = useState([]);
 
   const createNewTask = (taskName) => {
     if (!tasksItems.find(task => task.name === taskName)) {
@@ -16,26 +13,29 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    let data = localStorage.getItem(KEY);
+    if (data) {
+      setTasksItems(JSON.parse(data));
+    }
+  }, []);
+  
+
+  useEffect(() => {
+    localStorage.setItem(KEY, JSON.stringify(tasksItems));
+  }, [tasksItems]);
+
+  const toggleTask = (taskName) => {
+    const newTasksItems = [...tasksItems];
+    const task = newTasksItems.find(item => item.name === taskName);
+    task.done = !task.done;
+    setTasksItems(newTasksItems);
+  }
+  
   return (
     <div className="App">
       <TaskCreator createNewTask={createNewTask} />
-
-      <table>
-        <thead>
-          <tr>
-            <th>Tasks</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            tasksItems.map(task => (
-              <tr key={task.name}>
-                <td>{task.name}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+      <TaskTable tasks={tasksItems} toggleTask={toggleTask} />
 
     </div>
   );
