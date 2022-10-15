@@ -6,10 +6,11 @@ const KEY = 'todolist.fatz';
 
 function App() {
   const [tasksItems, setTasksItems] = useState([]);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const createNewTask = (taskName) => {
     if (!tasksItems.find(task => task.name === taskName)) {
-      setTasksItems([...tasksItems, {name: taskName, done: false}]);
+      setTasksItems([...tasksItems, { name: taskName, done: false }]);
     }
   }
 
@@ -19,7 +20,7 @@ function App() {
       setTasksItems(JSON.parse(data));
     }
   }, []);
-  
+
 
   useEffect(() => {
     localStorage.setItem(KEY, JSON.stringify(tasksItems));
@@ -31,11 +32,21 @@ function App() {
     task.done = !task.done;
     setTasksItems(newTasksItems);
   }
-  
+
   return (
     <div className="App">
       <TaskCreator createNewTask={createNewTask} />
       <TaskTable tasks={tasksItems} toggleTask={toggleTask} />
+
+      <div>
+        <input type="checkbox" onChange={() => setShowCompleted(!showCompleted)} /><label>Show Tasks Done</label>
+      </div>
+
+      {
+        showCompleted && (
+          <TaskTable tasks={tasksItems} toggleTask={toggleTask} showCompleted={true} />
+        )
+      }
 
     </div>
   );
